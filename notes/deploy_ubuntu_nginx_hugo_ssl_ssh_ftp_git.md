@@ -240,7 +240,56 @@ sudo nginx -s reload
 此时打开网站，地址栏不再提示 No Secure（不安全）。
 
 
+## 5. git
 
+移除上述 hugo 网站所在文件夹，以 git 的方式重新建立，从而实现本地编辑后推送至服务器端的版本控制。
+
+#### 服务器端上 git 配置
+
+对应 nginx 的配置文件站点所在路径，如`/home/coding-x`，重新建立文件夹`coding-x`，并创建裸仓库，即还没有上传 hugo 的文件夹地址。
+
+```console
+mkdir /home/coding-x && cd /home/coding-x
+
+git init --bare && cd hooks && touch post-receive (创建裸仓库，并创建Git hooks文件 post-receive) 
+
+ vim post-receive
+```
+
+`post-receive` git 配置文件内容如下：
+
+```text
+#!/bin/sh 
+GIT_REPO=/home/coding-x
+TMP_GIT_CLONE=/tmp/coding-x
+NGINX_HTML=/home/coding-x
+rm -rf ${TMP_GIT_CLONE}
+git clone $GIT_REPO $TMP_GIT_CLONE
+rm -rf ${NGINX_HTML}/*
+cp -rf ${TMP_GIT_CLONE}/* ${NGINX_HTML}
+```
+
+配置完 `post-receive` 后，需要修改其权限 `sudo chmod +x post-receive`。
+
+#### 本地 hugo git 配置
+
+hugo 的静态网站文件夹为 `public`，在该文件夹内配置 git。
+
+```console
+cd public
+
+git init
+
+git add --all
+
+git commit -m "Initial coding-x repo"
+
+git remote add origin your_user@IPAddress:/home/your_user/blog
+
+$ git remote set-url origin ssh://your_user@VPS_IP:Port/home/your_user/blog # 若VPS的ssh默认端口不是22，需另设置ssh端口。
+
+$ git push origin master
+```
 
 
 
