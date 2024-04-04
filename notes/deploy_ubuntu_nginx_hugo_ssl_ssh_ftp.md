@@ -106,7 +106,7 @@ sudo systemctl start nginx
 
 编辑 nginx 配置文件，nginx 默认安装位置为 `/etc/nginx`，因此最好定位到该位置`cd /etc/nginx`后再操作 nginx。
 
-nginx 配置方式有两种，一种是直接配置 `nginx.conf`文件；二是在`sites-available`文件夹中新建一个文件，例如`coding-x.tech` （用了域名作为文件名），作为源文件，并链接复制该文件到 `sites-enable`文件夹下，因此后续只需要修改`sites-available`文件夹中新建的文件，`sites-enable`文件夹下链接的文件会自动同步更新。本次配置使用了第二种方法。
+nginx 配置方式有两种，一种是直接配置 `nginx.conf`文件；二是在`sites-available`文件夹中新建一个文件，例如`coding-x.tech` （用了域名作为文件名），作为源文件，并链接复制该文件到 `sites-enable`文件夹下（`sudo ln -s /etc/nginx/sites-available/coding-x.tech /etc/nginx/sites-enabled/`），因此后续只需要修改`sites-available`文件夹中新建的文件，`sites-enable`文件夹下链接的文件会自动同步更新。本次配置使用了第二种方法。
 
 
 ```console
