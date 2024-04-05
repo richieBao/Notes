@@ -242,14 +242,12 @@ sudo nginx -s reload
 
 ## 5. git
 
-移除上述 hugo 网站所在文件夹，以 git 的方式重新建立，从而实现本地编辑后推送至服务器端的版本控制。
-
 #### 服务器端上 git 配置
 
-对应 nginx 的配置文件站点所在路径，如`/home/coding-x`，重新建立文件夹`coding-x`，并创建裸仓库，即还没有上传 hugo 的文件夹地址。
+nginx 的配置文件站点所在路径，例如为`/home/coding-x`。建立新文件夹`coding-x.git`，用于 git，并在`coding-x.git`下创建裸仓库。
 
 ```console
-mkdir /home/coding-x && cd /home/coding-x
+mkdir /home/coding-x.git && cd /home/coding-x.git
 
 git init --bare && cd hooks && touch post-receive (创建裸仓库，并创建Git hooks文件 post-receive) 
 
@@ -260,7 +258,7 @@ git init --bare && cd hooks && touch post-receive (创建裸仓库，并创建Gi
 
 ```text
 #!/bin/sh 
-GIT_REPO=/home/coding-x
+GIT_REPO=/home/coding-x.git
 TMP_GIT_CLONE=/tmp/coding-x
 NGINX_HTML=/home/coding-x
 rm -rf ${TMP_GIT_CLONE}
@@ -280,18 +278,20 @@ cd public
 
 git init
 
-git add --all
+git add --all 或者（git add -A）
 
 git commit -m "Initial coding-x repo"
 
-git remote add origin your_user@IPAddress:/home/your_user/blog
+git remote add origin your_user@IPAddress:/home/coding-x.git
 
-$ git remote set-url origin ssh://your_user@VPS_IP:Port/home/your_user/blog # 若VPS的ssh默认端口不是22，需另设置ssh端口。
+$ git remote set-url origin ssh://your_user@VPS_IP:Port/home/coding-x.git # 若VPS的ssh默认端口不是22，需另设置ssh端口。
 
 $ git push origin master
 ```
 
+## 6. Ubuntu 操控 Windows 系统
 
+用 Ubuntu 建立 hugo 网站，其内容的很多工作是在 Windows 下完成，因此需要从 Windows 系统下获取信息或复制文件到 Ubuntu 下，为了方便信息获取，文件转移，及对 Windows 系统下工具的操作，Ubuntu 已经内置安装了 Remmina，通过该工具可实现 Ubuntu 对 Windows 系统的操控（Access a remote desktop），及文件转移。
 
 
 
