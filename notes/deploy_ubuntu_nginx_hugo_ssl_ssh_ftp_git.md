@@ -287,6 +287,8 @@ git remote add origin your_user@IPAddress:/home/coding-x.git
 $ git remote set-url origin ssh://your_user@VPS_IP:Port/home/coding-x.git # 若VPS的ssh默认端口不是22，需另设置ssh端口。
 
 $ git push origin master
+
+$git push -f origin master (如果本地.git丢失后重新构建git后，推送更新的本地文件)
 ```
 
 ## 6. Ubuntu 操控 Windows 系统
